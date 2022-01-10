@@ -1,0 +1,32 @@
+#define MAX 1000005
+bitset<MAX>cubeFree;
+unordered_map<int,int>cbfr;
+void cubFr() {
+	cubeFree.set();
+	cubeFree[0]=0;
+	for(int i=2;i*i*i<=MAX;i++) {
+		if(cubeFree[i]) {
+			for(int j = i*i*i;j<=MAX;j+=i*i*i)
+				cubeFree[j]=0;
+		}
+	}
+	int cnt=1;
+	for(int i=1;i<=MAX;i++)	{
+		if(cubeFree[i]){
+			cbfr.insert({i,cnt});
+			cnt++;
+		}	
+	}
+}
+
+void solve(int T) { // T -> No. of Test Cases
+	int i=1;
+	while(i<=T) {
+		int n; cin>>n; // n -> The Test Cases
+		auto it = cbfr.find(n);
+		if(it!=cbfr.end())	cout<<"Case "<<i<<": "<<it->second<<"\n";
+		else cout<<"Case "<<i<<": Not Cube Free\n";
+		i++;
+	}
+	return;
+}
