@@ -1,0 +1,44 @@
+#define MAX 50005
+bitset<MAX>isPrime;
+vector<int>primes;
+void genPrimes() {
+	isPrime.set();
+	isPrime[0]=isPrime[1]=0;
+	for(long long i=2;i*i<=MAX;i++) {
+		if(isPrime[i]) {
+			for(long long j = i*i;j<=MAX;j+=i)
+				isPrime[j]=0;
+		}
+	}
+	primes.pb(2);
+	for(int i=3;i<=MAX;i+=2) {
+		if(isPrime[i]) primes.pb(i);
+	}
+}
+
+long long divisors(int n) {
+	int result = 1;
+	int i = 0;
+	while(primes[i]<=n) {
+		long long count = 0;
+		int pr = primes[i];
+		while(n/pr != 0) {
+			count = (count + (n/pr))%mod;
+			pr*=primes[i];
+		}
+		result = (result * (count+1))%mod; 
+		++i;
+	}
+	return result;
+}
+
+void solve() {
+    genPrimes();
+	int T;
+	cin>>T;
+	while(T--) {
+		int n;
+		cin>>n;
+		cout<<divisors(n)<<"\n";
+	}
+}
