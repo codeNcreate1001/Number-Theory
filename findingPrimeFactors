@@ -1,0 +1,30 @@
+#define MAX 1000005
+vector<int>spf(MAX,0);
+void genSPF() {
+	for(int i = 1; i<= MAX; ++i) { // O(MAX)
+		spf[i] = i;
+	}
+
+	for(int i = 2; i*i<= MAX; ++i) { // O(MAX log(log(MAX)))
+		if(spf[i] == i) {
+			for(int j = i*i; j<= MAX; j+=i)
+				if(spf[j] == j)
+					spf[j] = i;
+		} 
+	}
+	return;
+}
+
+void solve() {
+	genSPF();
+	int T;
+	cin>>T;
+	while(T--) {
+		int n;
+		cin>>n;
+		while(n!=1) {
+			cout<<spf[n]<<" ";
+			n/=spf[n];
+		}
+	}
+}
