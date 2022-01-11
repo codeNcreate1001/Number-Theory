@@ -1,0 +1,24 @@
+#define ll long long
+#define MAX 100006
+#define mod 1000000007
+
+vector<ll>productOfSumOfUnits(MAX,2);
+void genUnits() { // O(MAXlog(MAX))
+	productOfSumOfUnits[0] = 1;
+	for(long long i= 2;i<MAX;i++) {
+		for(long long j = i ;j<MAX; j+=i) {
+			productOfSumOfUnits[j] = (productOfSumOfUnits[j]*(i+1))%mod;
+		}
+	}
+}
+
+void solve() {
+    ll t,n;
+    cin>>t;
+    genUnits();
+    while(t--)
+    {
+      cin>>n;
+      cout<<productOfSumOfUnits[n]-1<<endl;
+    }
+}
