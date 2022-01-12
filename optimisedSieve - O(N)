@@ -1,0 +1,25 @@
+#define MAX 100006
+int spf[MAX];
+vector<int>primes;
+void genPrimes() {
+	for(int i = 1; i < MAX;i++) { spf[i] = i; } // O(N)
+	for(int i = 2; i < MAX;i++) { // O(N) -> Amortized T.C
+		if(spf[i] == i) primes.push_back(i);
+		// Three Conditions : 
+		//					  1. j is to traverse the primes vector, bound for j therefore reqd.
+		//					  2. the prime marking should be less than spf[i] 
+		//					  3. not exceed the bound of array while marking
+		for(int j = 0; (((j < primes.size()) and primes[j] <= spf[i]) and i * primes[j] < MAX); j++) {
+			spf[i*primes[j]] = primes[j]; // spf[x].p = p
+		}
+	}
+}
+
+void primeFactors(int n) { // O(logN)
+	while(n!=1) {
+		cout<<spf[n]<<" ";
+		n/=spf[n];
+	}
+	cout<<"\n";
+	return;
+}
